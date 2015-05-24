@@ -5,7 +5,7 @@ function Body()
 end
 
 function Body(mass::Real, moment::Real)
-	Body(ccall(dlsym(libchipmunk, :cpBodyNew), Ptr{Void}, (Cfloat, Cfloat,), mass, moment))
+	Body(ccall(dlsym(libchipmunk, :cpBodyNew), Ptr{Void}, (Cdouble, Cdouble,), mass, moment))
 end
 
 function KinematicBody()
@@ -17,11 +17,23 @@ function StaticBody()
 end
 
 function init(body::Body, mass::Real, moment::Real)
-	Body(ccall(dlsym(libchipmunk, :cpBodyInit), Ptr{Void}, (Ptr{Void}, Cfloat, Cfloat,), body.ptr, mass, moment))
+	Body(ccall(dlsym(libchipmunk, :cpBodyInit), Ptr{Void}, (Ptr{Void}, Cdouble, Cdouble,), body.ptr, mass, moment))
 end
 
 function free(body::Body)
 	ccall(dlsym(libchipmunk, :cpBodyFree), Void, (Ptr{Void},), body.ptr)
+end
+
+function activate(body::Body)
+	ccall(dlsym(libchipmunk, :cpBodyActivate), Void, (Ptr{Void},), body.ptr)
+end
+
+function activate_static(body::Body)
+	ccall(dlsym(libchipmunk, :cpBodyActivateStatic), Void, (Ptr{Void},), body.ptr)
+end
+
+function sleep(body::Body)
+	ccall(dlsym(libchipmunk, cpBodySleep), Void, (Ptr{Void},), body.ptr)
 end
 
 function is_sleeping(body::Body)
@@ -45,19 +57,19 @@ function get_space(body::Body)
 end
 
 function get_mass(body::Body)
-	Real(ccall(dlsym(libchipmunk, :cpBodyGetMass), Cfloat, (Ptr{Void},), body.ptr))
+	Real(ccall(dlsym(libchipmunk, :cpBodyGetMass), Cdouble, (Ptr{Void},), body.ptr))
 end
 
 function set_mass(body::Body, mass::Real)
-	ccall(dlsym(libchipmunk, :cpBodySetMass), Void, (Ptr{Void}, Cfloat,), body.ptr, mass)
+	ccall(dlsym(libchipmunk, :cpBodySetMass), Void, (Ptr{Void}, Cdouble,), body.ptr, mass)
 end
 
 function get_moment(body::Body)
-	Real(ccall(dlsym(libchipmunk, :cpBodyGetMoment), Cfloat, (Ptr{Void},), body.ptr))
+	Real(ccall(dlsym(libchipmunk, :cpBodyGetMoment), Cdouble, (Ptr{Void},), body.ptr))
 end
 
 function set_moment(body::Body, moment::Real)
-	ccall(dlsym(libchipmunk, :cpBodySetMoment), Void, (Ptr{Void}, Cfloat,), body.ptr, moment)
+	ccall(dlsym(libchipmunk, :cpBodySetMoment), Void, (Ptr{Void}, Cdouble,), body.ptr, moment)
 end
 
 function get_position(body::Body)
@@ -78,4 +90,4 @@ end
 
 export Body, KinematicBody, StaticBody, BodyType, init, free, is_sleeping, get_type, set_type,
 accumulate_mass_from_shapes, get_space, get_mass, set_mass, get_moment, set_moment,
-set_position, get_position, get_velocity, set_velocity
+set_position, get_position, get_velocity, set_velocity, activate, activate_static, sleep

@@ -1,6 +1,6 @@
 module Chipmunk
 
-import Base: step
+import Base: step, sleep
 
 dlsym = Base.Libdl.dlsym
 
