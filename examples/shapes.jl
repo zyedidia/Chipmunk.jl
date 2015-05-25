@@ -15,7 +15,7 @@ Sf.set_framerate_limit(window, 60)
 event = Sf.Event()
 
 body = Cp.Body(1, Cp.momentforbox(1, 50, 50))
-shape = Cp.PolyShape(body, 50, 50, 0)
+shape = Cp.BoxShape(body, 50, 50, 0)
 Cp.set_position(body, Cp.Vect(400, 0))
 Cp.set_friction(shape, 0.8)
 

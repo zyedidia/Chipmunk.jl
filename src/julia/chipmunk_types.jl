@@ -32,6 +32,10 @@ type PinJoint <: Constraint
 	ptr::Ptr{Void}
 end
 
+type GearJoint <: Constraint
+	ptr::Ptr{Void}
+end
+
 type CollisionHandler
 	type_a::Uint32
 	type_b::Uint32
@@ -72,4 +76,4 @@ end
 
 export Vect, Body, Space, Shape, CircleShape, SegmentShape,
 PolyShape, Transform, Mat2x2, BB, CollisionHandler, Constraint,
-SimpleMotor, PivotJoint, PinJoint
+SimpleMotor, PivotJoint, PinJoint, GearJoint
