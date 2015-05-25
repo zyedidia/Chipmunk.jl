@@ -20,5 +20,9 @@ include("julia/cpBody.jl")
 include("julia/cpSpace.jl")
 include("julia/cpShape.jl")
 include("julia/cpPolyShape.jl")
+include("julia/cpConstraint.jl")
+include("julia/cpSimpleMotor.jl")
+include("julia/cpPivotJoint.jl")
+include("julia/cpPinJoint.jl")
 
 end
