@@ -1,21 +1,22 @@
 type Space
 	ptr::Ptr{Void}
-
-	# function Space(ptr::Ptr{Void})
-	# 	s = new(ptr)
-	# 	finalizer(s, free)
-	# 	s
-	# end
 end
 
 type Body
 	ptr::Ptr{Void}
+end
 
-	# function Body(ptr::Ptr{Void})
-	# 	b = new(ptr)
-	# 	finalizer(b, free)
-	# 	b
-	# end
+abstract Shape
+type CircleShape <: Shape
+	ptr::Ptr{Void}
+end
+
+type SegmentShape <: Shape
+	ptr::Ptr{Void}
+end
+
+type PolyShape <: Shape
+	ptr::Ptr{Void}
 end
 
 type Vect
@@ -23,4 +24,4 @@ type Vect
 	y::Cdouble
 end
 
-export Vect, Body, Space
+export Vect, Body, Space, Shape, CircleShape, SegmentShape, PolyShape

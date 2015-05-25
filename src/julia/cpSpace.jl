@@ -30,6 +30,11 @@ function get_damping(space::Space)
 	Real(ccall(dlsym(libchipmunk, :cpSpaceGetDamping), Cdouble, (Ptr{Void},), space.ptr))
 end
 
+function add_shape(space::Space, shape::Shape)
+	shape_type = typeof(shape)
+	shape_type(ccall(dlsym(libchipmunk, :cpSpaceAddShape), Ptr{Void}, (Ptr{Void}, Ptr{Void},), space.ptr, shape.ptr))
+end
+
 function add_body(space::Space, body::Body)
 	Body(ccall(dlsym(libchipmunk, :cpSpaceAddBody), Ptr{Void}, (Ptr{Void}, Ptr{Void},), space.ptr, body.ptr))
 end
@@ -43,4 +48,4 @@ function step(space::Space, dt::Real)
 end
 
 export Space, get_iterations, set_iterations, get_gravity, set_gravity, set_damping, get_damping, add_body,
-remove_body, step
+remove_body, step, add_shape

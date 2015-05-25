@@ -12,8 +12,11 @@ function __init__()
 	end
 end
 
+include("julia/chipmunk.jl")
 include("julia/chipmunk_types.jl")
 include("julia/cpBody.jl")
 include("julia/cpSpace.jl")
+include("julia/cpShape.jl")
+include("julia/cpPolyShape.jl")
 
 end

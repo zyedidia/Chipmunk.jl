@@ -88,6 +88,15 @@ function set_velocity(body::Body, velocity::Vect)
 	ccall(dlsym(libchipmunk, :cpBodySetVelocity), Void, (Ptr{Void}, Vect), body.ptr, velocity)
 end
 
+function get_angle(body::Body)
+	ccall(dlsym(libchipmunk, :cpBodyGetAngle), Cdouble, (Ptr{Void},), body.ptr)
+end
+
+function set_angle(body::Body, angle::Real)
+	ccall(dlsym(libchipmunk, :cpBodySetAngle), Void, (Ptr{Void}, Cdouble), body.ptr, angle)
+end
+
 export Body, KinematicBody, StaticBody, BodyType, init, free, is_sleeping, get_type, set_type,
 accumulate_mass_from_shapes, get_space, get_mass, set_mass, get_moment, set_moment,
-set_position, get_position, get_velocity, set_velocity, activate, activate_static, sleep
+set_position, get_position, get_velocity, set_velocity, activate, activate_static, sleep,
+get_angle, set_angle
