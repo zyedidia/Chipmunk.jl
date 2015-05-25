@@ -63,4 +63,5 @@ type Mat2x2
 end
 
 export Vect, Body, Space, Shape, CircleShape, SegmentShape,
-PolyShape, Transform, Mat2x2, BB, CollisionHandler, Constraint
+PolyShape, Transform, Mat2x2, BB, CollisionHandler, Constraint,
+SimpleMotor

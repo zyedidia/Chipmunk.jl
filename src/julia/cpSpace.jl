@@ -39,8 +39,21 @@ function add_body(space::Space, body::Body)
 	Body(ccall(dlsym(libchipmunk, :cpSpaceAddBody), Ptr{Void}, (Ptr{Void}, Ptr{Void},), space.ptr, body.ptr))
 end
 
+function add_constraint(space::Space, constraint::Constraint)
+	constraint_type = typeof(constraint)
+	constraint_type(ccall(dlsym(libchipmunk, :cpSpaceAddConstraint), Ptr{Void}, (Ptr{Void}, Ptr{Void},), space.ptr, constraint.ptr))
+end
+
+function remove_shape(space::Space, shape::Shape)
+	ccall(dlsym(libchipmunk, :cpSpaceRemoveShape), Void, (Ptr{Void}, Ptr{Void},), space.ptr, shape.ptr)
+end
+
 function remove_body(space::Space, body::Body)
 	ccall(dlsym(libchipmunk, :cpSpaceRemoveBody), Void, (Ptr{Void}, Ptr{Void},), space.ptr, body.ptr)
+end
+
+function remove_constraint(space::Space, constraint::Constraint)
+	ccall(dlsym(libchipmunk, :cpSpaceRemoveConstraint), Void, (Ptr{Void}, Ptr{Void},), space.ptr, constraint.ptr)
 end
 
 function step(space::Space, dt::Real)
@@ -48,4 +61,4 @@ function step(space::Space, dt::Real)
 end
 
 export Space, get_iterations, set_iterations, get_gravity, set_gravity, set_damping, get_damping, add_body,
-remove_body, step, add_shape
+remove_body, step, add_shape, add_constraint, remove_constraint, remove_shape
