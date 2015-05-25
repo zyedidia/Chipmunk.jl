@@ -19,6 +19,16 @@ type PolyShape <: Shape
 	ptr::Ptr{Void}
 end
 
+type CollisionHandler
+	type_a::Uint32
+	type_b::Uint32
+	begin_func::Ptr{Void}
+	presolve_func::Ptr{Void}
+	postsolve_func::Ptr{Void}
+	separate_func::Ptr{Void}
+	userdata::Ptr{Void}
+end
+
 type BB
 	l::Cdouble
 	b::Cdouble
@@ -47,4 +57,4 @@ type Mat2x2
 	d::Cdouble
 end
 
-export Vect, Body, Space, Shape, CircleShape, SegmentShape, PolyShape, Transform, Mat2x2, BB
+export Vect, Body, Space, Shape, CircleShape, SegmentShape, PolyShape, Transform, Mat2x2, BB, CollisionHandler

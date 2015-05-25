@@ -6,7 +6,9 @@ dlsym = Base.Libdl.dlsym
 
 function __init__()
 	try
-		global const libchipmunk = Libdl.dlopen("libchipmunk")
+		cd(Pkg.dir("Chipmunk")*"/deps") do
+			global const libchipmunk = Libdl.dlopen("libchipmunk")
+		end
 	catch exception
 		println("Error: Could not find libchipmunk")
 	end

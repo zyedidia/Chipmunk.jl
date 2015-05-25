@@ -9,20 +9,12 @@ Take a look at the `examples/` folder to see what you can do with `Chipmunk.jl`
 
 # Installation
 
-To install, you must first have Chipmunk 7 installed.
-
-#### Mac
-
-You can install Chipmunk 7 with Homebrew:
-
-```
-$ brew install chipmunk
-```
-
-Then you can install with Julia
+Installation is quite simple. The package will clone and install chipmunk from source to `deps/`.
+Make sure that you have `cmake` installed so that it can build chipmunk.
 
 ```
 julia> Pkg.clone("https://github.com/zyedidia/Chipmunk.jl")
+julia> Pkg.build("Chipmunk")
 ```
 
 # [License] (LICENSE.md)

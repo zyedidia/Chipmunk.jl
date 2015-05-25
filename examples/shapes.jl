@@ -17,6 +17,7 @@ event = Sf.Event()
 body = Cp.Body(1, Cp.momentforbox(1, 50, 50))
 shape = Cp.PolyShape(body, 50, 50, 0)
 Cp.set_position(body, Cp.Vect(400, 0))
+Cp.set_friction(shape, 0.8)
 
 gravity = Cp.Vect(0, -100)
 space = Cp.Space()
@@ -38,6 +39,8 @@ Sf.set_size(square, Sf.Vector2f(50, 50))
 Sf.set_fillcolor(square, Sf.red)
 Sf.set_origin(square, Sf.Vector2f(25, 25))
 
+Cp.set_angle(body, pi/3)
+
 while Sf.isopen(window)
 	while Sf.pollevent(window, event)
 		if Sf.get_type(event) == Sf.EventType.CLOSED
@@ -48,6 +51,7 @@ while Sf.isopen(window)
 	Cp.step(space, 1./60)
 
 	Sf.set_position(square, sf_vec(Cp.get_position(body)))
+	Sf.set_rotation(square, -rad2deg(Cp.get_angle(body)))
 
 	Sf.clear(window, Sf.white)
 	Sf.draw(window, square)
