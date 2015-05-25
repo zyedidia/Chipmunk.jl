@@ -19,6 +19,11 @@ type PolyShape <: Shape
 	ptr::Ptr{Void}
 end
 
+abstract Constraint
+type SimpleMotor <: Constraint
+	ptr::Ptr{Void}
+end
+
 type CollisionHandler
 	type_a::Uint32
 	type_b::Uint32
@@ -57,4 +62,5 @@ type Mat2x2
 	d::Cdouble
 end
 
-export Vect, Body, Space, Shape, CircleShape, SegmentShape, PolyShape, Transform, Mat2x2, BB, CollisionHandler
+export Vect, Body, Space, Shape, CircleShape, SegmentShape,
+PolyShape, Transform, Mat2x2, BB, CollisionHandler, Constraint
