@@ -27,7 +27,63 @@ function set_damping(space::Space, damping::Real)
 end
 
 function get_damping(space::Space)
-	Real(ccall(dlsym(libchipmunk, :cpSpaceGetDamping), Cdouble, (Ptr{Void},), space.ptr))
+	ccall(dlsym(libchipmunk, :cpSpaceGetDamping), Cdouble, (Ptr{Void},), space.ptr)
+end
+
+function get_idle_sleep_threshold(space::Space)
+	ccall(dlsym(libchipmunk, :cpSpaceGetIdleSleepThreshold), Cdouble, (Ptr{Void},), space.ptr)
+end
+
+function set_idle_sleep_threshold(space::Space, threshold::Cdouble)
+	ccall(dlsym(libchipmunk, :cpSpaceSetIdleSleepThreshold), Void, (Ptr{Void}, Cdouble,), space.ptr, threshold)
+end
+
+function get_sleep_time_threshold(space::Space)
+	ccall(dlsym(libchipmunk, :cpSpaceGetSleepTimeThreshold), Cdouble, (Ptr{Void},), space.ptr)
+end
+
+function set_sleep_time_threshold(space::Space, threshold::Cdouble)
+	ccall(dlsym(libchipmunk, :cpSpaceSetSleepTimeThreshold), Void, (Ptr{Void}, Cdouble,), space.ptr, threshold)
+end
+
+function get_collision_slop(space::Space)
+	ccall(dlsym(libchipmunk, :cpSpaceGetCollisionSlop), Cdouble, (Ptr{Void},), space.ptr)
+end
+
+function set_collision_slop(space::Space, slop::Cdouble)
+	ccall(dlsym(libchipmunk, :cpSpaceSetCollisionSlop), Void, (Ptr{Void}, Cdouble,), space.ptr, slop)
+end
+
+function get_collision_bias(space::Space)
+	ccall(dlsym(libchipmunk, :cpSpaceGetCollisionBias), Cdouble, (Ptr{Void},), space.ptr)
+end
+
+function set_collision_bias(space::Space, bias::Cdouble)
+	ccall(dlsym(libchipmunk, :cpSpaceSetCollisionBias), Void, (Ptr{Void}, Cdouble,), space.ptr, bias)
+end
+
+function get_collision_persistence(space::Space)
+	ccall(dlsym(libchipmunk, :cpSpaceGetCollisionPersistence), Cdouble, (Ptr{Void},), space.ptr)
+end
+
+function set_collision_persistence(space::Space, persistence::Cdouble)
+	ccall(dlsym(libchipmunk, :cpSpaceSetCollisionPersistence), Void, (Ptr{Void}, Cdouble,), space.ptr, persistence)
+end
+
+function get_userdata(space::Space)
+	ccall(dlsym(libchipmunk, :cpSpaceGetUserData), Ptr{Void}, (Ptr{Void},), space.ptr)
+end
+
+function set_userdata(space::Space, userdata::Ptr{Void})
+	ccall(dlsym(libchipmunk, :cpSpaceSetUserData), Void, (Ptr{Void}, Ptr{Void},), space.ptr, userdata)
+end
+
+function get_current_timestep(space::Space)
+	ccall(dlsym(libchipmunk, :cpSpaceGetCurrentTimeStep), Cdouble, (Ptr{Void},), space.ptr)
+end
+
+function is_locked(space::Space)
+	ccall(dlsym(libchipmunk, :cpSpaceIsLocked), Bool, (Ptr{Void},), space.ptr)
 end
 
 function add_shape(space::Space, shape::Shape)
@@ -61,4 +117,7 @@ function step(space::Space, dt::Real)
 end
 
 export Space, get_iterations, set_iterations, get_gravity, set_gravity, set_damping, get_damping, add_body,
-remove_body, step, add_shape, add_constraint, remove_constraint, remove_shape
+remove_body, step, add_shape, add_constraint, remove_constraint, remove_shape, is_locked, get_current_timestep,
+get_userdata, set_userdata, set_collision_persistence, get_collision_persistence, set_collision_bias,
+get_collision_bias, get_collision_slop, set_collision_slop, set_idle_sleep_threshold, get_idle_sleep_threshold,
+set_sleep_time_threshold, get_sleep_time_threshold
