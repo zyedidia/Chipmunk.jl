@@ -25,4 +25,11 @@ include("julia/cpSimpleMotor.jl")
 include("julia/cpPivotJoint.jl")
 include("julia/cpPinJoint.jl")
 
+try
+	# Only include this if SFML.jl is installed
+	Pkg.installed("SFML")
+	include("julia/cpDebugDraw.jl")
+catch exception
+end
+
 end
