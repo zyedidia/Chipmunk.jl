@@ -36,6 +36,14 @@ type GearJoint <: Constraint
 	ptr::Ptr{Void}
 end
 
+type SlideJoint <: Constraint
+	ptr::Ptr{Void}
+end
+
+type DampedSpring <: Constraint
+	ptr::Ptr{Void}
+end
+
 type CollisionHandler
 	type_a::Uint32
 	type_b::Uint32
@@ -76,4 +84,5 @@ end
 
 export Vect, Body, Space, Shape, CircleShape, SegmentShape,
 PolyShape, Transform, Mat2x2, BB, CollisionHandler, Constraint,
-SimpleMotor, PivotJoint, PinJoint, GearJoint
+SimpleMotor, PivotJoint, PinJoint, GearJoint, SlideJoint,
+DampedSpring

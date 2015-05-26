@@ -1,4 +1,4 @@
-function PolyShape(body::Body, verts::Array{Vect}, radius::Cdouble)
+function PolyShape(body::Body, verts::Array{Vect}, radius::Real)
 	shape_ptr = ccall(dlsym(libchipmunk, :cpPolyShapeAlloc), Ptr{Void}, ())
 	PolyShape(ccall(dlsym(libchipmunk, :cpPolyShapeInitRaw), Ptr{Void}, (Ptr{Void}, Ptr{Void}, Int32, Ptr{Vect}, Cdouble,),
 																		shape_ptr, body.ptr, length(verts), pointer(verts), radius))

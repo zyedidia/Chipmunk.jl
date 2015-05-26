@@ -166,7 +166,7 @@ function get_angular_velocity(body::Body)
 end
 
 # Set the angular velocity of the body.
-function set_angular_velocity(body::Body, angular_velocity::Cdouble)
+function set_angular_velocity(body::Body, angular_velocity::Real)
 	ccall(dlsym(libchipmunk, :cpBodySetAngularVelocity), Void, (Ptr{Void}, Cdouble,), body.ptr, angular_velocity)
 end
 
@@ -176,7 +176,7 @@ function get_torque(body::Body)
 end
 
 # Set the torque applied to the body for the next time step.
-function set_torque(body::Body, torque::Cdouble)
+function set_torque(body::Body, torque::Real)
 	ccall(dlsym(libchipmunk, :cpBodySetTorque), Void, (Ptr{Void}, Cdouble,), body.ptr)
 end
 
@@ -196,12 +196,12 @@ function set_userdata(body::Body, userdata::Ptr{Void})
 end
 
 # Default velocity integration function.
-function update_velocity(body::Body, gravity::Vect, damping::Cdouble, dt::Cdouble)
+function update_velocity(body::Body, gravity::Vect, damping::Real, dt::Real)
 	ccall(dlsym(libchipmunk, :cpBodyUpdateVelocity), Void, (Ptr{Void}, Vect, Cdouble, Cdouble,), body.ptr, gravity, damping, dt)
 end
 
 # Default position integration function.
-function update_position(body::Body, dt::Cdouble)
+function update_position(body::Body, dt::Real)
 	ccall(dlsym(libchipmunk, :cpBodyUpdatePosition), Void, (Ptr{Void}, Cdouble,), body.ptr, dt)
 end
 

@@ -22,7 +22,7 @@ function get_dist(joint::PinJoint)
 	ccall(dlsym(libchipmunk, :cpPinJointGetDist), Cdouble, (Ptr{Void},), joint.ptr)
 end
 
-function set_dist(joint::PinJoint, dist::Cdouble)
+function set_dist(joint::PinJoint, dist::Real)
 	ccall(dlsym(libchipmunk, :cpPinJointSetDist), Void, (Ptr{Void}, Cdouble,), joint.ptr, dist)
 end
 

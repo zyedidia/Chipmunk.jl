@@ -34,7 +34,7 @@ function get_idle_sleep_threshold(space::Space)
 	ccall(dlsym(libchipmunk, :cpSpaceGetIdleSleepThreshold), Cdouble, (Ptr{Void},), space.ptr)
 end
 
-function set_idle_sleep_threshold(space::Space, threshold::Cdouble)
+function set_idle_sleep_threshold(space::Space, threshold::Real)
 	ccall(dlsym(libchipmunk, :cpSpaceSetIdleSleepThreshold), Void, (Ptr{Void}, Cdouble,), space.ptr, threshold)
 end
 
@@ -42,7 +42,7 @@ function get_sleep_time_threshold(space::Space)
 	ccall(dlsym(libchipmunk, :cpSpaceGetSleepTimeThreshold), Cdouble, (Ptr{Void},), space.ptr)
 end
 
-function set_sleep_time_threshold(space::Space, threshold::Cdouble)
+function set_sleep_time_threshold(space::Space, threshold::Real)
 	ccall(dlsym(libchipmunk, :cpSpaceSetSleepTimeThreshold), Void, (Ptr{Void}, Cdouble,), space.ptr, threshold)
 end
 
@@ -50,7 +50,7 @@ function get_collision_slop(space::Space)
 	ccall(dlsym(libchipmunk, :cpSpaceGetCollisionSlop), Cdouble, (Ptr{Void},), space.ptr)
 end
 
-function set_collision_slop(space::Space, slop::Cdouble)
+function set_collision_slop(space::Space, slop::Real)
 	ccall(dlsym(libchipmunk, :cpSpaceSetCollisionSlop), Void, (Ptr{Void}, Cdouble,), space.ptr, slop)
 end
 
@@ -58,7 +58,7 @@ function get_collision_bias(space::Space)
 	ccall(dlsym(libchipmunk, :cpSpaceGetCollisionBias), Cdouble, (Ptr{Void},), space.ptr)
 end
 
-function set_collision_bias(space::Space, bias::Cdouble)
+function set_collision_bias(space::Space, bias::Real)
 	ccall(dlsym(libchipmunk, :cpSpaceSetCollisionBias), Void, (Ptr{Void}, Cdouble,), space.ptr, bias)
 end
 
@@ -66,7 +66,7 @@ function get_collision_persistence(space::Space)
 	ccall(dlsym(libchipmunk, :cpSpaceGetCollisionPersistence), Cdouble, (Ptr{Void},), space.ptr)
 end
 
-function set_collision_persistence(space::Space, persistence::Cdouble)
+function set_collision_persistence(space::Space, persistence::Real)
 	ccall(dlsym(libchipmunk, :cpSpaceSetCollisionPersistence), Void, (Ptr{Void}, Cdouble,), space.ptr, persistence)
 end
 
