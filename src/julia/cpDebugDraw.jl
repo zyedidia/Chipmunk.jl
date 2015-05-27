@@ -38,6 +38,7 @@ function debug_draw_circle(pos::Vect, angle::Cdouble, radius::Cdouble, outlineco
 	SFML.set_rotation(circle, -rad2deg(angle))
 	SFML.set_outlinecolor(circle, sfColor(outlinecolor.r * 255, outlinecolor.g * 255, outlinecolor.b * 255, outlinecolor.a * 255))
 	SFML.set_fillcolor(circle, sfColor(fillcolor.r * 255, fillcolor.g * 255, fillcolor.b * 255, fillcolor.a * 255))
+	SFML.set_outline_thickness(circle, 0.5)
 
 	window = SFML.RenderWindow(data)
 	SFML.draw(window, circle)
@@ -45,7 +46,7 @@ function debug_draw_circle(pos::Vect, angle::Cdouble, radius::Cdouble, outlineco
 end
 
 function debug_draw_segment(a::Vect, b::Vect, color::DebugColor, data::Ptr{Void})
-	line = SFML.Line(SFML.Vector2f(a.x, a.y), SFML.Vector2f(b.x, b.y), 1)
+	line = SFML.Line(SFML.Vector2f(a.x, -a.y), SFML.Vector2f(b.x, -b.y), 1)
 	SFML.set_fillcolor(line, sfColor(color.r * 255, color.g * 255, color.b * 255, color.a * 255))
 
 	window = SFML.RenderWindow(data)
@@ -54,7 +55,7 @@ function debug_draw_segment(a::Vect, b::Vect, color::DebugColor, data::Ptr{Void}
 end
 
 function debug_draw_fatsegment(a::Vect, b::Vect, radius::Cdouble, outlinecolor::DebugColor, fillcolor::DebugColor, data::Ptr{Void})
-	line = SFML.Line(SFML.Vector2f(a.x, a.y), SFML.Vector2f(b.x, b.y), 2*radius)
+	line = SFML.Line(SFML.Vector2f(a.x, -a.y), SFML.Vector2f(b.x, -b.y), 2)
 	SFML.set_outlinecolor(line, sfColor(outlinecolor.r * 255, outlinecolor.g * 255, outlinecolor.b * 255, outlinecolor.a * 255))
 	SFML.set_fillcolor(line, sfColor(fillcolor.r * 255, fillcolor.g * 255, fillcolor.b * 255, fillcolor.a * 255))
 
@@ -63,10 +64,15 @@ function debug_draw_fatsegment(a::Vect, b::Vect, radius::Cdouble, outlinecolor::
 	return nothing
 end
 
+function debug_draw_polygon(count::Int32, verts::Ptr{Vect}, radius::Cdouble, outlinecolor::DebugColor, fillcolor::DebugColor, data::Ptr{Void})
+	println("Draw polygon")
+	return nothing
+end
+
 function debug_draw_dot(size::Cdouble, pos::Vect, color::DebugColor, data::Ptr{Void})
 	dot = SFML.CircleShape()
 	SFML.set_radius(dot, size)
-	SFML.set_position(dot, SFML.Vector2f(pos.x, pos.y))
+	SFML.set_position(dot, SFML.Vector2f(pos.x, -pos.y))
 	SFML.set_fillcolor(dot, sfColor(color.r * 255, color.g * 255, color.b * 255, color.a * 255))
 
 	window = SFML.RenderWindow(data)
@@ -90,8 +96,8 @@ end
 function DebugDrawOptions(window)
 	c_draw_circle = cfunction(debug_draw_circle, Void, (Vect, Cdouble, Cdouble, DebugColor, DebugColor, Ptr{Void}))
 	c_draw_segment = cfunction(debug_draw_segment, Void, (Vect, Vect, DebugColor, Ptr{Void}))
-	c_draw_fatsegment = cfunction(debug_draw_fatsegment, Void, (Vect, Vect, Cdouble, DebugColor, DebugColor, Ptr{Void}))
-	c_draw_polygon = C_NULL
+	c_draw_fatsegment = cfunction(debug_draw_fatsegment, Void, (Vect, Vect, Cdouble, DebugColor, DebugColor, Ptr{Void},))
+	c_draw_polygon = cfunction(debug_draw_polygon, Void, (Int32, Ptr{Vect}, Cdouble, DebugColor, DebugColor, Ptr{Void}))
 	c_draw_dot = cfunction(debug_draw_dot, Void, (Cdouble, Vect, DebugColor, Ptr{Void}))
 	c_color_for_shape = cfunction(color_for_shape, DebugColor, (Ptr{Void}, Ptr{Void}))
 
@@ -104,7 +110,7 @@ function DebugDrawOptions(window)
 					 c_draw_fatsegment,
 					 c_draw_polygon,
 					 c_draw_dot,
-					 1<<0,
+					 (1<<0) | (1<<1) | (1<<2),
 					 DebugColor(0.0, 0.0, 1.0, 1.0),
 					 c_color_for_shape,
 					 DebugColor(0.0, 1.0, 0.0, 1.0),

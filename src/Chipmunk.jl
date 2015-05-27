@@ -12,6 +12,7 @@ function __init__()
 		end
 	catch exception
 		println("Error: Could not find libchipmunk")
+		println("Please rebuild")
 	end
 end
 

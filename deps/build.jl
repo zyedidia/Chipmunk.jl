@@ -8,10 +8,12 @@ end
 
 println("Good...")
 
-println("Cloning Chipmunk source...")
+if !isdir("Chipmunk2D")
+	println("Cloning Chipmunk source...")
 
-cd(Pkg.dir("Chipmunk")*"/deps")
-run(`git clone https://github.com/slembcke/Chipmunk2D.git`)
+	cd(Pkg.dir("Chipmunk")*"/deps")
+	run(`git clone https://github.com/slembcke/Chipmunk2D.git`)
+end
 
 cd("Chipmunk2D")
 
@@ -23,24 +25,23 @@ ext = ""
 @osx_only ext = "dylib"
 @windows_only ext = "dll"
 
-cd("../../src/c") do
-	run(`gcc -I$(Pkg.dir("Chipmunk"))/deps/Chipmunk2D/include/chipmunk -c chipmunkjl.c`)
-	run(`gcc -I$(Pkg.dir("Chipmunk"))/deps/Chipmunk2D/include/chipmunk -L$(Pkg.dir("Chipmunk"))/deps/Chipmunk2D/src -lchipmunk -shared -o ../../deps/libchipmunkjl.$ext chipmunkjl.o`)
-	run(`rm chipmunkjl.o`)
-end
-
 @linux_only begin
-	mv("src/libchipmunk.so.7.0.0", "../libchipmunk.so")
+	cp("src/libchipmunk.so.7.0.0", "../libchipmunk.so", remove_destination=true)
 end
 @osx_only begin
-	mv("src/libchipmunk.7.0.0.dylib", "../libchipmunk.dylib")
+	cp("src/libchipmunk.7.0.0.dylib", "../libchipmunk.dylib", remove_destination=true)
 end
 @windows_only begin
-	mv("src/libchipmunk.7.0.0.dll", "../libchipmunk.dll")
+	cp("src/libchipmunk.7.0.0.dll", "../libchipmunk.dll", remove_destination=true)
 end
+
 
 cd("..")
 
-rm("Chipmunk2D", recursive=true)
+run(`gcc -I./Chipmunk2D/include/chipmunk -c $(Pkg.dir("Chipmunk"))/src/c/chipmunkjl.c`)
+run(`gcc -I./Chipmunk2D/include/chipmunk -L. -lchipmunk -shared -o ./libchipmunkjl.$ext chipmunkjl.o`)
+run(`rm chipmunkjl.o`)
+
+# rm("Chipmunk2D", recursive=true)
 
 println("Successfully built Chipmunk.jl!")

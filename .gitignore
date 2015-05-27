@@ -3,3 +3,4 @@
 
 deps/*
 !deps/build.jl
+.DS_STORE
