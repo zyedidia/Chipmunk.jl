@@ -7,6 +7,8 @@ Take a look at the `examples/` folder to see what you can do with `Chipmunk.jl`
 
 `Chipmunk.jl` uses [SFML.jl] (https://github.com/zyedidia/SFML.jl) to render the world to the screen. You may want to get that package in order to run the graphical examples.
 
+`Chipmunk.jl` also requires Julia 0.4.
+
 # Installation
 
 Installation is quite simple. The package will clone and install chipmunk from source to `deps/`.

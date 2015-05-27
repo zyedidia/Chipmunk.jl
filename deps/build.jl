@@ -18,6 +18,17 @@ cd("Chipmunk2D")
 run(`cmake . -DBUILD_DEMOS=OFF`)
 run(`make`)
 
+ext = ""
+@linux_only ext = "so"
+@osx_only ext = "dylib"
+@windows_only ext = "dll"
+
+cd("../../src/c") do
+	run(`gcc -I$(Pkg.dir("Chipmunk"))/deps/Chipmunk2D/include/chipmunk -c chipmunkjl.c`)
+	run(`gcc -I$(Pkg.dir("Chipmunk"))/deps/Chipmunk2D/include/chipmunk -L$(Pkg.dir("Chipmunk"))/deps/Chipmunk2D/src -lchipmunk -shared -o ../../deps/libchipmunkjl.$ext chipmunkjl.o`)
+	run(`rm chipmunkjl.o`)
+end
+
 @linux_only begin
 	mv("src/libchipmunk.so.7.0.0", "../libchipmunk.so")
 end

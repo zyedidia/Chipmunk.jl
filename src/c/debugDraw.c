@@ -60,7 +60,7 @@ int main() {
 		window,
 	};
 
-	printf("Size: %d\n", sizeof(drawOptions));
+	printf("Size: %d\n", sizeof(cpSpaceDebugColor));
 
 	while (1) {
 		while (sfRenderWindow_pollEvent(window, &event)) {

@@ -8,6 +8,7 @@ function __init__()
 	try
 		cd(Pkg.dir("Chipmunk")*"/deps") do
 			global const libchipmunk = Libdl.dlopen("libchipmunk")
+			global const libchipmunkjl = Libdl.dlopen("libchipmunkjl")
 		end
 	catch exception
 		println("Error: Could not find libchipmunk")
