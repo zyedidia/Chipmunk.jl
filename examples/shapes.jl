@@ -3,21 +3,12 @@ Cp = Chipmunk
 import SFML
 Sf = SFML
 
-function sf_vec(vect)
-	Sf.Vector2f(vect.x, -vect.y)
-end
-
 settings = Sf.ContextSettings()
 settings.antialiasing_level = 3
-window = Sf.RenderWindow(Sf.VideoMode(800, 600), "Shapes", settings, Sf.window_defaultstyle)
+window = Sf.RenderWindow(Sf.VideoMode(800, 600), "Physics", settings, Sf.window_defaultstyle)
 Sf.set_framerate_limit(window, 60)
 
 event = Sf.Event()
-
-body = Cp.Body(1, Cp.momentforbox(1, 50, 50))
-shape = Cp.BoxShape(body, 50, 50, 0)
-Cp.set_position(body, Cp.Vect(400, 0))
-Cp.set_friction(shape, 0.8)
 
 gravity = Cp.Vect(0, -100)
 space = Cp.Space()
@@ -31,29 +22,48 @@ Cp.set_friction(leftwallshape, 1)
 rightwallshape = Cp.add_shape(space, Cp.SegmentShape(static, Cp.Vect(800, 0), Cp.Vect(800, -600), 10))
 Cp.set_friction(rightwallshape, 1)
 
-Cp.add_shape(space, shape)
-Cp.add_body(space, body)
+function make_ball(position, r)
+	body = Cp.add_body(space, Cp.Body(1, 1))
+	Cp.set_position(body, position)
 
-square = Sf.RectangleShape()
-Sf.set_size(square, Sf.Vector2f(50, 50))
-Sf.set_fillcolor(square, Sf.red)
-Sf.set_origin(square, Sf.Vector2f(25, 25))
-
-Cp.set_angle(body, pi/3)
-
-while Sf.isopen(window)
-	while Sf.pollevent(window, event)
-		if Sf.get_type(event) == Sf.EventType.CLOSED
-			Sf.close(window)
-		end
-	end
-
-	Cp.step(space, 1./60)
-
-	Sf.set_position(square, sf_vec(Cp.get_position(body)))
-	Sf.set_rotation(square, -rad2deg(Cp.get_angle(body)))
-
-	Sf.clear(window, Sf.white)
-	Sf.draw(window, square)
-	Sf.display(window)
+	shape = Cp.add_shape(space, Cp.CircleShape(body, r, Cp.Vect(0, 0)))
+	Cp.set_friction(shape, 0.8)
 end
+
+function make_rect(position, size)
+	w = size.x
+	h = size.y
+	rect_body = Cp.add_body(space, Cp.Body(1, Cp.momentforbox(1, w, h)))
+	Cp.set_position(rect_body, position)
+
+	rect_shape = Cp.add_shape(space, Cp.BoxShape(rect_body, w, h, 0))
+	Cp.set_friction(rect_shape, 0.8)
+end
+
+function main()
+	timestep = 1./60
+	while Sf.isopen(window)
+		while Sf.pollevent(window, event)
+			if Sf.get_type(event) == Sf.EventType.CLOSED
+				Sf.close(window)
+				return
+			end
+		end
+
+		if Sf.is_mouse_pressed(Sf.MouseButton.LEFT)
+			mousepos = Sf.get_mousepos(window)
+			make_ball(Cp.Vect(mousepos.x, -mousepos.y), rand(10:30))
+		elseif Sf.is_mouse_pressed(Sf.MouseButton.RIGHT)
+			mousepos = Sf.get_mousepos(window)
+			make_rect(Cp.Vect(mousepos.x, -mousepos.y), Cp.Vect(rand(20:70), rand(20:70)))
+		end
+
+		Cp.step(space, timestep)
+
+		Sf.clear(window, Sf.white)
+		Cp.debug_draw(space, window)
+		Sf.display(window)
+	end
+end
+
+main()

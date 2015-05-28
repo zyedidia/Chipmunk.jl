@@ -32,7 +32,7 @@ Cp.set_friction(rightwallshape, 1)
 smiley_texture = Sf.Texture("smiley.png")
 Sf.set_smooth(smiley_texture, true)
 
-function make_particle(position, r)
+function make_ball(position, r)
 	body = Cp.Body(1, 1)
 	shape = Cp.CircleShape(body, r, Cp.Vect(0, 0))
 	Cp.set_position(body, position)
@@ -59,7 +59,7 @@ while Sf.isopen(window)
 
 	if Sf.is_mouse_pressed(0)
 		mousepos = Sf.get_mousepos(window)
-		make_particle(Cp.Vect(mousepos.x, -mousepos.y), rand(10:30))
+		make_ball(Cp.Vect(mousepos.x, -mousepos.y), rand(10:30))
 	end
 
 	Cp.step(space, timestep)

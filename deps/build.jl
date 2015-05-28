@@ -1,3 +1,4 @@
+cd("$(Pkg.dir("Chipmunk"))/deps")
 println("Checking dependencies...")
 
 try
