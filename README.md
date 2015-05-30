@@ -1,5 +1,7 @@
 # Chipmunk.jl
 
+![logo smash](https://zyedidia.github.io/assets/logo_smash.gif)
+
 `Chipmunk.jl` is a Julia binding of the popular physics engine [Chipmunk] (https://chipmunk-physics.net/) ([Github page] (https://github.com/slembcke/Chipmunk2D)).
 This is currently very much in progress.
 

@@ -35,7 +35,7 @@ function add_domino(pos, flipped)
 	moment = Cp.momentforbox(mass, width, height)
 
 	body = Cp.add_body(space, Cp.Body(mass, moment))
-	Cp.set_position(body, Cp.Vect(pos.x + 350, pos.y - 350))
+	Cp.set_position(body, Cp.Vect(pos.x + 400, pos.y - 350))
 
 	shape = !flipped ? Cp.BoxShape(body, width, height, 0) : Cp.BoxShape(body, height, width, 0)
 	Cp.add_shape(space, shape)
