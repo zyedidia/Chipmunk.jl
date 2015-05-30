@@ -3,6 +3,8 @@ Cp = Chipmunk
 import SFML
 Sf = SFML
 
+cd(dirname(Base.source_path()))
+
 function sf_vec(vect)
 	Sf.Vector2f(vect.x, -vect.y)
 end
