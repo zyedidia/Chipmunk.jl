@@ -17,6 +17,11 @@ function __init__()
 	end
 end
 
+global const debug_circle = SFML.CircleShape()
+global debug_line = SFML.Line(SFML.Vector2f(0, 0), SFML.Vector2f(0, 0), 0)
+global const debug_polygon = SFML.ConvexShape()
+global const debug_dot = SFML.CircleShape()
+
 include("julia/chipmunk.jl")
 include("julia/chipmunk_types.jl")
 include("julia/cpBody.jl")

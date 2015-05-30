@@ -11,72 +11,72 @@ function sfColor(debugcolor)
 end
 
 function debug_draw_circle(pos::Vect, angle::Cdouble, radius::Cdouble, outlinecolor::DebugColor, fillcolor::DebugColor, data::Ptr{Void})
-	circle = SFML.CircleShape()
-	SFML.set_radius(circle, radius)
-	SFML.set_origin(circle, SFML.Vector2f(radius, radius))
-	SFML.set_position(circle, SFML.Vector2f(pos.x, -pos.y))
-	# SFML.set_outlinecolor(circle, sfColor(outlinecolor))
-	SFML.set_fillcolor(circle, sfColor(fillcolor))
-	# SFML.set_outline_thickness(circle, 0)
+	SFML.set_radius(debug_circle, radius)
+	SFML.set_origin(debug_circle, SFML.Vector2f(radius, radius))
+	SFML.set_position(debug_circle, SFML.Vector2f(pos.x, -pos.y))
+	# SFML.set_outlinecolor(debug_circle, sfColor(outlinecolor))
+	SFML.set_fillcolor(debug_circle, sfColor(fillcolor))
+	# SFML.set_outline_thickness(debug_circle, 0)
 
-	line = SFML.Line(SFML.Vector2f(pos.x, -pos.y), SFML.Vector2f(pos.x + radius * sin(angle), -pos.y + radius * cos(angle)), 2)
-	SFML.set_fillcolor(line, SFML.Color(128, 85, 85))
+	SFML.set_points(debug_line, SFML.Vector2f(pos.x, -pos.y), SFML.Vector2f(pos.x + radius * sin(angle), -pos.y + radius * cos(angle)))
+	SFML.set_thickness(debug_line, 2)
+	SFML.set_fillcolor(debug_line, SFML.Color(128, 85, 85))
 
 	window = SFML.RenderWindow(data)
-	SFML.draw(window, circle)
-	SFML.draw(window, line)
+	SFML.draw(window, debug_circle)
+	SFML.draw(window, debug_line)
 	return nothing
 end
 
 function debug_draw_segment(a::Vect, b::Vect, color::DebugColor, data::Ptr{Void})
-	line = SFML.Line(SFML.Vector2f(a.x, -a.y), SFML.Vector2f(b.x, -b.y), 1)
-	SFML.set_fillcolor(line, sfColor(color))
+	SFML.set_points(debug_line, SFML.Vector2f(a.x, -a.y), SFML.Vector2f(b.x, -b.y))
+	SFML.set_thickness(debug_line, 1)
+	SFML.set_fillcolor(debug_line, sfColor(color))
 
 	window = SFML.RenderWindow(data)
-	SFML.draw(window, line)
+	SFML.draw(window, debug_line)
 	return nothing
 end
 
 function debug_draw_fatsegment(a::Vect, b::Vect, radius::Cdouble, outlinecolor::DebugColor, data::Ptr{Void})
 	fillcolor = color_for_shape(C_NULL, C_NULL)
 
-	line = SFML.Line(SFML.Vector2f(a.x, -a.y), SFML.Vector2f(b.x, -b.y), radius*2)
-	SFML.set_outlinecolor(line, sfColor(outlinecolor))
-	SFML.set_outline_thickness(line, 0)
-	SFML.set_fillcolor(line, sfColor(fillcolor))
+	SFML.set_points(debug_line, SFML.Vector2f(a.x, -a.y), SFML.Vector2f(b.x, -b.y))
+	SFML.set_thickness(debug_line, radius*2)
+	# SFML.set_outlinecolor(debug_line, sfColor(outlinecolor))
+	# SFML.set_outline_thickness(debug_line, 0)
+	SFML.set_fillcolor(debug_line, sfColor(fillcolor))
 
 	window = SFML.RenderWindow(data)
-	SFML.draw(window, line)
+	SFML.draw(window, debug_line)
 	return nothing
 end
 
 function debug_draw_polygon(count::Int32, verts::Ptr{Vect}, radius::Cdouble, outlinecolor::DebugColor, fillcolor::DebugColor, data::Ptr{Void})
-	polygon = SFML.ConvexShape()
-	SFML.set_pointcount(polygon, count)
+	SFML.set_pointcount(debug_polygon, count)
 
 	for i = 0:count-1
 		vert = unsafe_load(verts, i+1)
-		SFML.set_point(polygon, i, SFML.Vector2f(vert.x, -vert.y))
+		SFML.set_point(debug_polygon, i, SFML.Vector2f(vert.x, -vert.y))
 	end
 
-	SFML.set_fillcolor(polygon, sfColor(fillcolor))
-	SFML.set_outlinecolor(polygon, sfColor(outlinecolor))
-	SFML.set_outline_thickness(polygon, 0)
+	SFML.set_fillcolor(debug_polygon, sfColor(fillcolor))
+	SFML.set_outlinecolor(debug_polygon, sfColor(outlinecolor))
+	SFML.set_outline_thickness(debug_polygon, 0)
 
 	window = SFML.RenderWindow(data)
-	SFML.draw(window, polygon)
+	SFML.draw(window, debug_polygon)
 
 	return nothing
 end
 
 function debug_draw_dot(size::Cdouble, pos::Vect, color::DebugColor, data::Ptr{Void})
-	dot = SFML.CircleShape()
-	SFML.set_radius(dot, size)
-	SFML.set_position(dot, SFML.Vector2f(pos.x, -pos.y))
-	SFML.set_fillcolor(dot, sfColor(color.r * 255, color.g * 255, color.b * 255, color.a * 255))
+	SFML.set_radius(debug_dot, size)
+	SFML.set_position(debug_dot, SFML.Vector2f(pos.x, -pos.y))
+	SFML.set_fillcolor(debug_dot, sfColor(color.r * 255, color.g * 255, color.b * 255, color.a * 255))
 
 	window = SFML.RenderWindow(data)
-	SFML.draw(window, dot)
+	SFML.draw(window, debug_dot)
 	return nothing
 end
 
