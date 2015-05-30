@@ -3,6 +3,12 @@ Cp = Chipmunk
 import SFML
 Sf = SFML
 
+# I am not using the Debug Draw in this example because it is slower than doing the rendering yourself, and I need the best performance in this example.
+
+function sf_vec(cpvect)
+	Sf.Vector2f(cpvect.x, -cpvect.y)
+end
+
 const image_width = 188;
 const image_height = 35;
 const image_row_length = 24;
@@ -50,15 +56,24 @@ event = Sf.Event()
 
 function make_ball(x, y)
 	body = Cp.Body(1.0, Inf);
-	Cp.set_position(body, Cp.Vect(x + 350, y - 300));
+	Cp.set_position(body, Cp.Vect(x + 400, y - 300));
 
-	shape = Cp.CircleShape(body, 1.8, Cp.Vect(0, 0));
+	shape = Cp.CircleShape(body, 0.95, Cp.Vect(0, 0));
 	Cp.set_elasticity(shape, 0.0);
 	Cp.set_friction(shape, 0.0);
+	push!(bodies, body)
+
+	circle = Sf.CircleShape()
+	Sf.set_radius(circle, 0.95)
+	Sf.set_origin(circle, Sf.Vector2f(0.95, 0.95))
+	Sf.set_fillcolor(circle, Sf.red)
+	push!(circles, circle)
 
 	shape
 end
 
+circles = Sf.CircleShape[]
+bodies = Cp.Body[]
 function get_pixel(x, y)
 	(image_bitmap[((x>>3) + y*image_row_length) + 1]>>(~x&0x7)) & 1;
 end
@@ -72,8 +87,8 @@ function init()
 	Cp.use_spatial_hash(space, 2, 10000);
 
 	bodycount = 0
-	for y = 0:2:image_height-1
-		for x = 0:2:image_width-1
+	for y = 0:image_height-1
+		for x = 0:image_width-1
 			if get_pixel(x, y) == 0 continue end
 			
 			x_jitter = 0.05*rand();
@@ -82,7 +97,7 @@ function init()
 			shape = make_ball(2*(x - image_width/2 + x_jitter), 2*(image_height/2 - y + y_jitter));
 			Cp.add_body(space, Cp.get_body(shape))
 			Cp.add_shape(space, shape)
-			
+
 			bodycount += 1;
 		end
 	end
@@ -93,6 +108,13 @@ function init()
 	shape = Cp.add_shape(space, Cp.CircleShape(body, 8.0, Cp.Vect(0, 0)));
 	Cp.set_elasticity(shape, 0.0);
 	Cp.set_friction(shape, 0.0);
+
+	circle = Sf.CircleShape()
+	Sf.set_radius(circle, 8)
+	Sf.set_origin(circle, Sf.Vector2f(8, 8))
+	Sf.set_fillcolor(circle, Sf.blue)
+	push!(circles, circle)
+	push!(bodies, body)
 
 	bodycount += 1;
 	println("$bodycount bodies")
@@ -112,6 +134,10 @@ while Sf.isopen(window)
 	Cp.step(space, 1/60)
 
 	Sf.clear(window, Sf.white)
-	Cp.debug_draw(space, window)
+	for i = 1:length(circles)
+		circle = circles[i]
+		Sf.set_position(circle, sf_vec(Cp.get_position(bodies[i])))
+		Sf.draw(window, circle)
+	end
 	Sf.display(window)
 end
