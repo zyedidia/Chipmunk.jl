@@ -5,7 +5,7 @@ Sf = SFML
 
 settings = Sf.ContextSettings()
 settings.antialiasing_level = 3
-window = Sf.RenderWindow(Sf.VideoMode(800, 600), "Physics", settings, Sf.window_defaultstyle)
+window = Sf.RenderWindow(Sf.VideoMode(800, 600), "Shapes", settings, Sf.window_defaultstyle)
 Sf.set_framerate_limit(window, 60)
 
 event = Sf.Event()
@@ -46,7 +46,6 @@ function main()
 		while Sf.pollevent(window, event)
 			if Sf.get_type(event) == Sf.EventType.CLOSED
 				Sf.close(window)
-				return
 			end
 		end
 

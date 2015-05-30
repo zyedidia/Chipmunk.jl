@@ -1,7 +1,3 @@
-# SFML.jl is required to use debug drawing
-
-import SFML
-
 # Color is from 0.0 to 1.0
 type DebugColor
 	r::Float32
@@ -19,10 +15,9 @@ function debug_draw_circle(pos::Vect, angle::Cdouble, radius::Cdouble, outlineco
 	SFML.set_radius(circle, radius)
 	SFML.set_origin(circle, SFML.Vector2f(radius, radius))
 	SFML.set_position(circle, SFML.Vector2f(pos.x, -pos.y))
-	SFML.set_rotation(circle, -rad2deg(angle))
-	SFML.set_outlinecolor(circle, sfColor(outlinecolor))
+	# SFML.set_outlinecolor(circle, sfColor(outlinecolor))
 	SFML.set_fillcolor(circle, sfColor(fillcolor))
-	SFML.set_outline_thickness(circle, 0)
+	# SFML.set_outline_thickness(circle, 0)
 
 	line = SFML.Line(SFML.Vector2f(pos.x, -pos.y), SFML.Vector2f(pos.x + radius * sin(angle), -pos.y + radius * cos(angle)), 2)
 	SFML.set_fillcolor(line, SFML.Color(128, 85, 85))
@@ -86,16 +81,20 @@ function debug_draw_dot(size::Cdouble, pos::Vect, color::DebugColor, data::Ptr{V
 end
 
 function color_for_shape(shape_ptr::Ptr{Void}, data::Ptr{Void})
-	# println("Color for shape")
-	# shape = CircleShape(shape_ptr)
+	if shape_ptr != C_NULL
+		shape = CircleShape(shape_ptr)
+		body = get_body(shape)
 
-	# if is_sleeping(shape)
-	# 	# Draw in gray
-	# 	return DebugColor(0.4, 0.4, 0.4, 1.0)
-	# else
-	# 	# Draw in red
+		if is_sleeping(body)
+			# Draw in gray
+			return DebugColor(0.4, 0.4, 0.4, 0.6)
+		else
+			# Draw in red
+			return DebugColor(0.8, 0.0, 0.0, 0.6)
+		end
+	else
 		return DebugColor(0.8, 0.0, 0.0, 0.6)
-	# end
+	end
 end
 
 function DebugDrawOptions(window)
@@ -107,20 +106,20 @@ function DebugDrawOptions(window)
 	c_color_for_shape = cfunction(color_for_shape, DebugColor, (Ptr{Void}, Ptr{Void}))
 
 	ccall(dlsym(libchipmunkjl, :cpjlDebugDrawOptions), Ptr{Void},
-					 (Ptr{Void}, Ptr{Void}, Ptr{Void}, Ptr{Void}, Ptr{Void},
-					 Cint, DebugColor, Ptr{Void}, DebugColor, DebugColor,
-					 Ptr{Void},),
-					 c_draw_circle,
-				     c_draw_segment,
-					 c_draw_fatsegment,
-					 c_draw_polygon,
-					 c_draw_dot,
-					 (1<<0) | (1<<1) | (1<<2),
-					 DebugColor(0.0, 0.0, 1.0, 1.0),
-					 c_color_for_shape,
-					 DebugColor(0.0, 1.0, 0.0, 1.0),
-					 DebugColor(1.0, 1.0, 0.0, 1.0),
-					 window.ptr)
+	(Ptr{Void}, Ptr{Void}, Ptr{Void}, Ptr{Void}, Ptr{Void},
+	Cint, DebugColor, Ptr{Void}, DebugColor, DebugColor,
+	Ptr{Void},),
+	c_draw_circle,
+	c_draw_segment,
+	c_draw_fatsegment,
+	c_draw_polygon,
+	c_draw_dot,
+	(1<<0) | (1<<1) | (1<<2),
+	DebugColor(0.0, 0.0, 1.0, 1.0),
+	c_color_for_shape,
+	DebugColor(0.0, 1.0, 0.0, 1.0),
+	DebugColor(1.0, 1.0, 0.0, 1.0),
+	window.ptr)
 end
 
 function debug_draw(space::Space, window::SFML.RenderWindow; clear_and_display=false)
@@ -131,7 +130,7 @@ function debug_draw(space::Space, window::SFML.RenderWindow; clear_and_display=f
 	if clear_and_display
 		SFML.clear(window, SFML.white)
 	end
-	
+
 	ccall(dlsym(libchipmunk, :cpSpaceDebugDraw), Void, (Ptr{Void}, Ptr{Void},), space.ptr, options)
 
 	if clear_and_display

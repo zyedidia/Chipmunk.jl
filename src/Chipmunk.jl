@@ -1,6 +1,7 @@
 module Chipmunk
 
 import Base: step, sleep
+import SFML
 
 dlsym = Base.Libdl.dlsym
 
@@ -26,12 +27,6 @@ include("julia/cpConstraint.jl")
 include("julia/cpSimpleMotor.jl")
 include("julia/cpPivotJoint.jl")
 include("julia/cpPinJoint.jl")
-
-try
-	# Only include this if SFML.jl is installed
-	Pkg.installed("SFML")
-	include("julia/cpDebugDraw.jl")
-catch exception
-end
+include("julia/cpDebugDraw.jl")
 
 end

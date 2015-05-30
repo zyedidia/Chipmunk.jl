@@ -112,6 +112,10 @@ function remove_constraint(space::Space, constraint::Constraint)
 	ccall(dlsym(libchipmunk, :cpSpaceRemoveConstraint), Void, (Ptr{Void}, Ptr{Void},), space.ptr, constraint.ptr)
 end
 
+function use_spatial_hash(space::Space, dim::Real, count::Integer)
+	ccall(dlsym(libchipmunk, :cpSpaceUseSpatialHash), Void, (Ptr{Void}, Cdouble, Cint,), space.ptr, dim, count)
+end
+
 function step(space::Space, dt::Real)
 	ccall(dlsym(libchipmunk, :cpSpaceStep), Void, (Ptr{Void}, Cdouble,), space.ptr, dt)
 end
@@ -120,4 +124,4 @@ export Space, get_iterations, set_iterations, get_gravity, set_gravity, set_damp
 remove_body, step, add_shape, add_constraint, remove_constraint, remove_shape, is_locked, get_current_timestep,
 get_userdata, set_userdata, set_collision_persistence, get_collision_persistence, set_collision_bias,
 get_collision_bias, get_collision_slop, set_collision_slop, set_idle_sleep_threshold, get_idle_sleep_threshold,
-set_sleep_time_threshold, get_sleep_time_threshold
+set_sleep_time_threshold, get_sleep_time_threshold, use_spatial_hash
