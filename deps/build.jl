@@ -1,4 +1,3 @@
-
 cd("$(Pkg.dir("Chipmunk"))/deps")
 println("Checking dependencies...")
 
@@ -6,19 +5,6 @@ try
 	@unix_only run(`which cmake`)
 catch exception
 	error("You must install cmake to build this package.")
-end
-
-if !isdir(Pkg.dir("SFML"))
-	println("Installing SFML.jl")
-	Pkg.clone("SFML")
-	Pkg.build("SFML")
-else
-	if Pkg.installed("SFML") < v"0.0.5+"
-		println("Reinstalling SFML")
-		Pkg.rm("SFML")
-		Pkg.clone("SFML")
-		Pkg.build("SFML")
-	end
 end
 
 println("Good...")
