@@ -57,8 +57,6 @@ function main()
 			make_rect(Cp.Vect(mousepos.x, -mousepos.y), Cp.Vect(rand(20:70), rand(20:70)))
 		end
 
-		Cp.step(space, timestep)
-
 		Sf.clear(window, Sf.white)
 		Cp.debug_draw(space, window)
 		Sf.display(window)
