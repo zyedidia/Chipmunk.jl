@@ -22,5 +22,4 @@ while true
 	# Debug draw
 	debug_draw(space, window, clear_and_display=true)
 	println("Body position: $(get_position(body))")
-	sleep(timestep)
 end
