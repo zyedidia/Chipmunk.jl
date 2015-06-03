@@ -112,8 +112,48 @@ function remove_constraint(space::Space, constraint::Constraint)
 	ccall(dlsym(libchipmunk, :cpSpaceRemoveConstraint), Void, (Ptr{Void}, Ptr{Void},), space.ptr, constraint.ptr)
 end
 
+# function point_query(space::Space, point::Vect, max_distance::Cdouble, filter::ShapeFilter, out::PointQueryInfo)
+	
+# end
+
 function use_spatial_hash(space::Space, dim::Real, count::Integer)
 	ccall(dlsym(libchipmunk, :cpSpaceUseSpatialHash), Void, (Ptr{Void}, Cdouble, Cint,), space.ptr, dim, count)
+end
+
+function body_iterator_func(body_ptr::Ptr{Void}, data::Ptr{Void})
+	callback = unsafe_pointer_to_objref(data)
+	callback(Body(body_ptr))
+	return nothing
+end
+
+function each_body(space::Space, callback::Function)
+	c_callback = cfunction(body_iterator_func, Void, (Ptr{Void}, Ptr{Void},))
+	callback_ptr = pointer_from_objref(callback)
+	ccall(dlsym(libchipmunk, :cpSpaceEachBody), Void, (Ptr{Void}, Ptr{Void}, Ptr{Void},), space.ptr, c_callback, callback_ptr)
+end
+
+function shape_iterator_func(shape_ptr::Ptr{Void}, data::Ptr{Void})
+	callback = unsafe_pointer_to_objref(data)
+	callback(Shape(body_ptr))
+	return nothing
+end
+
+function each_shape(space::Space, callback::Function)
+	c_callback = cfunction(shape_iterator_func, Void, (Ptr{Void}, Ptr{Void},))
+	callback_ptr = pointer_from_objref(callback)
+	ccall(dlsym(libchipmunk, :cpSpaceEachShape), Void, (Ptr{Void}, Ptr{Void}, Ptr{Void},), space.ptr, c_callback, callback_ptr)
+end
+
+function constraint_iterator_func(constraint_ptr::Ptr{Void}, data::Ptr{Void})
+	callback = unsafe_pointer_to_objref(data)
+	callback(Shape(body_ptr))
+	return nothing
+end
+
+function each_constraint(space::Space, callback::Function)
+	c_callback = cfunction(constraint_iterator_func, Void, (Ptr{Void}, Ptr{Void},))
+	callback_ptr = pointer_from_objref(callback)
+	ccall(dlsym(libchipmunk, :cpSpaceEachConstraint), Void, (Ptr{Void}, Ptr{Void}, Ptr{Void},), space.ptr, c_callback, callback_ptr)
 end
 
 function step(space::Space, dt::Real)
@@ -124,4 +164,4 @@ export Space, get_iterations, set_iterations, get_gravity, set_gravity, set_damp
 remove_body, step, add_shape, add_constraint, remove_constraint, remove_shape, is_locked, get_current_timestep,
 get_userdata, set_userdata, set_collision_persistence, get_collision_persistence, set_collision_bias,
 get_collision_bias, get_collision_slop, set_collision_slop, set_idle_sleep_threshold, get_idle_sleep_threshold,
-set_sleep_time_threshold, get_sleep_time_threshold, use_spatial_hash
+set_sleep_time_threshold, get_sleep_time_threshold, use_spatial_hash, each_body, each_shape, each_constraint
