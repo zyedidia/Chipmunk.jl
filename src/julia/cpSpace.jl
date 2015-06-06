@@ -86,6 +86,10 @@ function is_locked(space::Space)
 	ccall(dlsym(libchipmunk, :cpSpaceIsLocked), Bool, (Ptr{Void},), space.ptr)
 end
 
+function set_default_collision_handler(space)
+	CollisionHandler(ccall(dlsym(libchipmunk, :cpSpaceAddDefaultCollisionHandler), Ptr{Void}, (Ptr{Void},), space.ptr))
+end
+
 function add_shape(space::Space, shape::Shape)
 	shape_type = typeof(shape)
 	shape_type(ccall(dlsym(libchipmunk, :cpSpaceAddShape), Ptr{Void}, (Ptr{Void}, Ptr{Void},), space.ptr, shape.ptr))

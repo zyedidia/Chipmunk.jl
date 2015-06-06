@@ -6,6 +6,10 @@ type Body
 	ptr::Ptr{Void}
 end
 
+type Arbiter
+	ptr::Ptr{Void}
+end
+
 abstract Shape
 type CircleShape <: Shape
 	ptr::Ptr{Void}
@@ -45,13 +49,7 @@ type DampedSpring <: Constraint
 end
 
 type CollisionHandler
-	type_a::Uint32
-	type_b::Uint32
-	begin_func::Ptr{Void}
-	presolve_func::Ptr{Void}
-	postsolve_func::Ptr{Void}
-	separate_func::Ptr{Void}
-	userdata::Ptr{Void}
+	ptr::Ptr{Void}
 end
 
 type BB

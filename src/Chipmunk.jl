@@ -33,5 +33,6 @@ include("julia/cpSimpleMotor.jl")
 include("julia/cpPivotJoint.jl")
 include("julia/cpPinJoint.jl")
 include("julia/cpDebugDraw.jl")
+include("julia/cpCollisionHandler.jl")
 
 end
