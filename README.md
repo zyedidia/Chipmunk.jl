@@ -2,6 +2,8 @@
 
 ![logo smash](https://zyedidia.github.io/assets/logo_smash.gif)
 
+[![Build Status](https://travis-ci.org/zyedidia/Test.jl.svg?branch=master)](https://travis-ci.org/zyedidia/Test.jl)
+
 `Chipmunk.jl` is a Julia binding of the popular physics engine [Chipmunk] (https://chipmunk-physics.net/) ([Github page] (https://github.com/slembcke/Chipmunk2D)).
 This is currently very much in progress.
 
