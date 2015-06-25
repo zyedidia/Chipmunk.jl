@@ -1,7 +1,17 @@
 #include <chipmunk.h>
 #include <stdlib.h>
 
-cpSpaceDebugDrawOptions* cpjlDebugDrawOptions(cpSpaceDebugDrawCircleImpl drawCircle, cpSpaceDebugDrawSegmentImpl drawSegment, cpSpaceDebugDrawFatSegmentImpl drawFatSegment, cpSpaceDebugDrawPolygonImpl drawPolygon, cpSpaceDebugDrawDotImpl drawDot, cpSpaceDebugDrawFlags flags, cpSpaceDebugColor outlineColor, cpSpaceDebugDrawColorForShapeImpl colorForShape, cpSpaceDebugColor constraintColor, cpSpaceDebugColor collisionPointColor, cpDataPointer data) {
+cpSpaceDebugDrawOptions* cpjlDebugDrawOptions(cpSpaceDebugDrawCircleImpl drawCircle,
+					     cpSpaceDebugDrawSegmentImpl drawSegment,
+					     cpSpaceDebugDrawFatSegmentImpl drawFatSegment,
+					     cpSpaceDebugDrawPolygonImpl drawPolygon,
+					     cpSpaceDebugDrawDotImpl drawDot,
+					     cpSpaceDebugDrawFlags flags,
+					     cpSpaceDebugColor outlineColor,
+					     cpSpaceDebugDrawColorForShapeImpl colorForShape,
+					     cpSpaceDebugColor constraintColor,
+					     cpSpaceDebugColor collisionPointColor,
+					     cpDataPointer data) {
 	cpSpaceDebugDrawOptions* options = malloc(sizeof(cpSpaceDebugDrawOptions));
 	options->drawCircle = drawCircle;
 	options->drawSegment = drawSegment;

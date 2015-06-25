@@ -39,7 +39,7 @@ end
 
 cd("..")
 
-run(`gcc -I./Chipmunk2D/include/chipmunk -c $(Pkg.dir("Chipmunk"))/src/c/chipmunkjl.c`)
+run(`gcc -fPIC -I./Chipmunk2D/include/chipmunk -c $(Pkg.dir("Chipmunk"))/src/c/chipmunkjl.c`)
 run(`gcc -I./Chipmunk2D/include/chipmunk -L. -lchipmunk -shared -o ./libchipmunkjl.$ext chipmunkjl.o`)
 run(`rm chipmunkjl.o`)
 
