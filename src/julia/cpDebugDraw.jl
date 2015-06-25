@@ -123,18 +123,22 @@ function DebugDrawOptions(window)
 end
 
 function debug_draw(space::Space, window::SFML.RenderWindow; clear_and_display=false)
-	event = SFML.Event()
-	SFML.pollevent(window, event)
-	options = DebugDrawOptions(window)
+	if use_debug_draw
+		event = SFML.Event()
+		SFML.pollevent(window, event)
+		options = DebugDrawOptions(window)
 
-	if clear_and_display
-		SFML.clear(window, SFML.white)
-	end
+		if clear_and_display
+			SFML.clear(window, SFML.white)
+		end
 
-	ccall(dlsym(libchipmunk, :cpSpaceDebugDraw), Void, (Ptr{Void}, Ptr{Void},), space.ptr, options)
+		ccall(dlsym(libchipmunk, :cpSpaceDebugDraw), Void, (Ptr{Void}, Ptr{Void},), space.ptr, options)
 
-	if clear_and_display
-		SFML.display(window)
+		if clear_and_display
+			SFML.display(window)
+		end
+	else
+		println("Debug draw is unavailable.")
 	end
 end
 
