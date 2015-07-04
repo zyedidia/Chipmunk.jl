@@ -18,6 +18,8 @@ end
 
 cd("Chipmunk2D")
 
+run(`git checkout Chipmunk-7.0.0`)
+
 run(`cmake . -DBUILD_DEMOS=OFF`)
 run(`make`)
 
