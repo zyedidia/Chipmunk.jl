@@ -2,18 +2,18 @@ cd("$(Pkg.dir("Chipmunk"))/deps")
 println("Checking dependencies...")
 
 try
-	@unix_only run(`which cmake`)
+    @unix_only run(`which cmake`)
 catch exception
-	error("You must install cmake to build this package.")
+    error("You must install cmake to build this package.")
 end
 
 println("Good...")
 
 if !isdir("Chipmunk2D")
-	println("Cloning Chipmunk source...")
+    println("Cloning Chipmunk source...")
 
-	cd(Pkg.dir("Chipmunk")*"/deps")
-	run(`git clone https://github.com/slembcke/Chipmunk2D.git`)
+    cd(Pkg.dir("Chipmunk")*"/deps")
+    run(`git clone https://github.com/slembcke/Chipmunk2D.git`)
 end
 
 cd("Chipmunk2D")
@@ -27,13 +27,13 @@ ext = ""
 @windows_only ext = "dll"
 
 @linux_only begin
-	cp("src/libchipmunk.so.7.0.0", "../libchipmunk.so", remove_destination=true)
+    cp("src/libchipmunk.so.7.0.0", "../libchipmunk.so", remove_destination=true)
 end
 @osx_only begin
-	cp("src/libchipmunk.7.0.0.dylib", "../libchipmunk.dylib", remove_destination=true)
+    cp("src/libchipmunk.7.0.0.dylib", "../libchipmunk.dylib", remove_destination=true)
 end
 @windows_only begin
-	cp("src/libchipmunk.7.0.0.dll", "../libchipmunk.dll", remove_destination=true)
+    cp("src/libchipmunk.7.0.0.dll", "../libchipmunk.dll", remove_destination=true)
 end
 
 
