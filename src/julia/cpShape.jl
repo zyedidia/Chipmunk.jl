@@ -79,7 +79,7 @@ function get_center_of_gravity(shape::Shape)
 end
 
 function get_sensor(shape::Shape)
-    Bool(ccall(libchipmunk, :cpShapeGetSensor), Int32, (Ptr{Void},), shape.ptr)
+    Bool(ccall(libchipmunk, :cpShapeGetSensor), Uint8, (Ptr{Void},), shape.ptr)
 end
 
 function set_sensor(shape::Shape, sensor::Bool)
