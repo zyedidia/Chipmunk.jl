@@ -18,8 +18,8 @@ add_shape(space, shape)
 
 timestep = 1./60
 while true
-	step(space, timestep)
-	# Debug draw
-	debug_draw(space, window, clear_and_display=true)
-	println("Body position: $(get_position(body))")
+    step(space, timestep)
+    # Debug draw
+    debug_draw(space, window, clear_and_display=true)
+    println("Body position: $(get_position(body))")
 end

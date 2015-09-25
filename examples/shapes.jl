@@ -23,46 +23,46 @@ rightwallshape = Cp.add_shape(space, Cp.SegmentShape(static, Cp.Vect(800, 0), Cp
 Cp.set_friction(rightwallshape, 1)
 
 function make_ball(position, r)
-	body = Cp.add_body(space, Cp.Body(1, 1))
-	Cp.set_position(body, position)
+    body = Cp.add_body(space, Cp.Body(1, 1))
+    Cp.set_position(body, position)
 
-	shape = Cp.add_shape(space, Cp.CircleShape(body, r, Cp.Vect(0, 0)))
-	Cp.set_friction(shape, 0.8)
+    shape = Cp.add_shape(space, Cp.CircleShape(body, r, Cp.Vect(0, 0)))
+    Cp.set_friction(shape, 0.8)
 end
 
 function make_rect(position, size)
-	w = size.x
-	h = size.y
-	rect_body = Cp.add_body(space, Cp.Body(1, Cp.momentforbox(1, w, h)))
-	Cp.set_position(rect_body, position)
+    w = size.x
+    h = size.y
+    rect_body = Cp.add_body(space, Cp.Body(1, Cp.momentforbox(1, w, h)))
+    Cp.set_position(rect_body, position)
 
-	rect_shape = Cp.add_shape(space, Cp.BoxShape(rect_body, w, h, 0))
-	Cp.set_friction(rect_shape, 0.8)
+    rect_shape = Cp.add_shape(space, Cp.BoxShape(rect_body, w, h, 0))
+    Cp.set_friction(rect_shape, 0.8)
 end
 
 function main()
-	timestep = 1./60
-	while Sf.isopen(window)
-		while Sf.pollevent(window, event)
-			if Sf.get_type(event) == Sf.EventType.CLOSED
-				Sf.close(window)
-			end
-		end
+    timestep = 1./60
+    while Sf.isopen(window)
+        while Sf.pollevent(window, event)
+            if Sf.get_type(event) == Sf.EventType.CLOSED
+                Sf.close(window)
+            end
+        end
 
-		if Sf.is_mouse_pressed(Sf.MouseButton.LEFT)
-			mousepos = Sf.get_mousepos(window)
-			make_ball(Cp.Vect(mousepos.x, -mousepos.y), rand(10:30))
-		elseif Sf.is_mouse_pressed(Sf.MouseButton.RIGHT)
-			mousepos = Sf.get_mousepos(window)
-			make_rect(Cp.Vect(mousepos.x, -mousepos.y), Cp.Vect(rand(20:70), rand(20:70)))
-		end
+        if Sf.is_mouse_pressed(Sf.MouseButton.LEFT)
+            mousepos = Sf.get_mousepos(window)
+            make_ball(Cp.Vect(mousepos.x, -mousepos.y), rand(10:30))
+        elseif Sf.is_mouse_pressed(Sf.MouseButton.RIGHT)
+            mousepos = Sf.get_mousepos(window)
+            make_rect(Cp.Vect(mousepos.x, -mousepos.y), Cp.Vect(rand(20:70), rand(20:70)))
+        end
 
-		Cp.step(space, timestep)
+        Cp.step(space, timestep)
 
-		Sf.clear(window, Sf.white)
-		Cp.debug_draw(space, window)
-		Sf.display(window)
-	end
+        Sf.clear(window, Sf.white)
+        Cp.debug_draw(space, window)
+        Sf.display(window)
+    end
 end
 
 main()
