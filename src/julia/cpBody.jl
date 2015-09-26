@@ -68,7 +68,7 @@ end
 
 # Returns true if the body is sleeping.
 function is_sleeping(body::Body)
-    Bool(ccall(dlsym(libchipmunk, :cpBodyIsSleeping), Int32, (Ptr{Void},), body.ptr))
+    Bool(ccall(dlsym(libchipmunk, :cpBodyIsSleeping), Uint8, (Ptr{Void},), body.ptr))
 end
 
 # Get the type of the body.
